@@ -1,0 +1,21 @@
+.mensagemEnviada {
+    background: #54d38a;
+    width: 70%;
+    border-radius: 1.5%;
+    padding-left: 1%;
+    padding-top: 1%;
+    padding-bottom: 0.1%;
+    margin: 1%;
+    position: relative;
+    right: -27%;
+}
+
+.mensagemRecebida {
+    background: #ffffff;
+    width: 70%;
+    border-radius: 1.5%;
+    padding-left: 1%;
+    padding-top: 1%;
+    padding-bottom: 0.1%;
+    margin: 1%;
+}
