@@ -1,6 +1,6 @@
 <div class="container">
     <div class="cabecalho">
-        <h1 class="display-4">Avôhai, avô e pai!</h1>
+        <h1 class="display-4">Avôhai!</h1>
     </div>
     <div class="jumbotron">
 
@@ -51,11 +51,20 @@
         <div class="d-flex justify-content-end">
             <p class="lead">
 
-                <a class="btn btn-primary btn-lg" href="#" role="button">Enviar <fa-icon [icon]="faPaperPlane">
+                <a class="btn btn-success btn-lg" (click)="teste()" role="button">Enviar <fa-icon [icon]="faPaperPlane">
                     </fa-icon>
                 </a>
             </p>
         </div>
     </div>
-    <footer class="d-flex justify-content-center">Teste</footer>
+    <footer>
+        <div class="img">
+            <a [href]="linkedinPerfil" target="_blank">
+                <img [src]="linkedin" alt="linkedin" class="linkedin">
+            </a>
+            <a [href]="githubPerfil" target="_blank">
+                <img [src]="github" alt="github" class="github">
+            </a>
+        </div>
+    </footer>
 </div>
