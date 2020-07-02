@@ -1,27 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { github, linkedin, githubPerfil, linkedinPerfil } from '../utils/links';
+import { TreeServiceService } from '../services/tree-service.service';
+import { Base } from '../utils/base';
 
 @Component({
   selector: 'avhi-chatbot',
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })
-export class ChatbotComponent implements OnInit {
+export class ChatbotComponent extends Base implements OnInit {
 
-  public faPaperPlane = faPaperPlane;
-  public github = github;
-  public linkedin = linkedin;
-  public githubPerfil = githubPerfil;
-  public linkedinPerfil = linkedinPerfil;
-
-  constructor() { }
+  constructor(private treeService: TreeServiceService) {
+    super();
+  }
 
   ngOnInit(): void {
   }
 
-  teste():void {
-    console.log("teste")
+  teste(): void {
+    this.treeService.serviceTeste();
   }
 
 }
