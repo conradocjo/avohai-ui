@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DivEnum } from '../model/enumerators/divEnum';
+import { InteracaoChatEnum } from '../model/enumerators/interacaoChatEnum';
 import { Mensagem } from '../model/mensagem';
 import { TreeServiceService } from '../services/tree-service.service';
 import { Base } from '../utils/base';
-import { InteracaoChatEnum } from '../model/enumerators/interacaoChatEnum';
 
 @Component({
   selector: 'avhi-chatbot',
@@ -16,9 +16,12 @@ export class ChatbotComponent extends Base implements OnInit {
   private respostaRoboErro: string = InteracaoChatEnum.RESPOSTA_ERRO;
   public chat: Mensagem[] = [];
   public mensagensEmitidasPeloRobo: Mensagem[] = [];
+  private tempoDeRetornoDoRobo = 1000;
+
+
   public formulario: FormGroup = new FormGroup(
     {
-      "mensagem": new FormControl("")
+      "mensagem": new FormControl("", Validators.required)
     }
   )
 
@@ -35,6 +38,7 @@ export class ChatbotComponent extends Base implements OnInit {
 
   public enviarMensagem(): void {
     this.chat.push(new Mensagem(DivEnum.MENSAGEM_ENVIADA, this.formulario.value.mensagem))
+
     if (this.validaSePerguntaFeitaFoiRelacionadaOpcaoUmOuDois()) {
       if (this.validaSeOpcaoDigitadaEhUmOuDois()) {
         if (this.formulario.value.mensagem == 1) {
@@ -45,32 +49,154 @@ export class ChatbotComponent extends Base implements OnInit {
       } else {
         setTimeout(() => {
           this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro))
-          this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro))
           this.rolarBarra()
         }, 1000);
       }
     }
 
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarPaternalGreaterGrandFather();
+    }
+
+    this.formulario = new FormGroup(
+      {
+        "mensagem": new FormControl(null, Validators.required)
+      }
+    );
+
   }
 
-  private informarNome(): void {
-    setTimeout(() => {
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
-      this.rolarBarra()
-    }, 1000)
-  }
+  //Métodos da parte de edição
 
   private continuarEdicao(): void {
     setTimeout(() => {
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, Entendi.`))
       this.rolarBarra()
-    }, 1000)
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  //Métodos da parte de cadasstro
+  private informarNome(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarPaternalGreaterGrandFather(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GREATER_GRAND_FATHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GREATER_GRAND_FATHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarMaternalGreaterGrandFather(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GREATER_GRAND_FATHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GREATER_GRAND_FATHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarPaternalGreaterGrandMother(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GREATER_GRAND_MOTHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GREATER_GRAND_MOTHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarMaternalGreaterGrandMother(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GREATER_GRAND_MOTHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GREATER_GRAND_MOTHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarPaternalGrandFather(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_FATHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_FATHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarMaternalGrandFather(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_FATHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_FATHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarNomeDoPai(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.FATHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.FATHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarNomeDaMae(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MOTHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MOTHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
   }
 
   // Validações e tratativas
 
   private validaSePerguntaFeitaFoiRelacionadaOpcaoUmOuDois(): boolean {
     return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.OPCAO_INICIAL ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.INFORME_SEU_NOME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandFather(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.PATERNAL_GREATER_GRAND_FATHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandFather(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.MATERNAL_GREATER_GRAND_FATHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandMother(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.PATERNAL_GREATER_GRAND_MOTHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandMother(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.MATERNAL_GREATER_GRAND_MOTHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandFather(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.PATERNAL_GRAND_FATHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandFather(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.MATERNAL_GRAND_FATHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandMother(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.PATERNAL_GRAND_MOTHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandMother(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.MATERNAL_GRAND_MOTHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFoiFeitaSobreNomeDoPai(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.FATHER_NAME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFoiFeitaSobreNomeDaMae(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.MOTHER_NAME ? true : false;
   }
 
   private validaSeOpcaoDigitadaEhUmOuDois(): boolean {
