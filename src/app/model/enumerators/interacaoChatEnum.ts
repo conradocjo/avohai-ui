@@ -7,12 +7,12 @@ export enum InteracaoChatEnum {
     INFORME_SEU_NOME = "Ok, Informe seu nome completo:",
     PATERNAL_GREATER_GRAND_FATHER_NAME = "Informe o nome completo do seu bisavô (Paterno):",
     MATERNAL_GREATER_GRAND_FATHER_NAME = "Informe o nome completo do seu bisavô (Materno):",
-    PATERNAL_GREATER_GRAND_MOTHER_NAME = "Informe o nome completo do bisavó (Paterno):",
-    MATERNAL_GREATER_GRAND_MOTHER_NAME = "Informe o nome completo do bisavó (Materno):",
-    PATERNAL_GRAND_MOTHER_NAME = "Informe o nome completo do avó (Paterno):",
-    MATERNAL_GRAND_MOTHER_NAME = "Informe o nome completo do avó (Materno):",
-    PATERNAL_GRAND_FATHER_NAME = "Informe o nome completo do avó (Paterno):",
-    MATERNAL_GRAND_FATHER_NAME = "Informe o nome completo do avó (Materno):",
+    PATERNAL_GREATER_GRAND_MOTHER_NAME = "Informe o nome completo da sua bisavó (Paterno):",
+    MATERNAL_GREATER_GRAND_MOTHER_NAME = "Informe o nome completo da sua bisavó (Materno):",
+    PATERNAL_GRAND_MOTHER_NAME = "Informe o nome completo da sua avó (Paterno):",
+    MATERNAL_GRAND_MOTHER_NAME = "Informe o nome completo da sua avó (Materno):",
+    PATERNAL_GRAND_FATHER_NAME = "Informe o nome completo do seu avô (Paterno):",
+    MATERNAL_GRAND_FATHER_NAME = "Informe o nome completo do seu avô (Materno):",
     FATHER_NAME = "Informe o nome completo do seu pai:",
     MOTHER_NAME = "Informe o nome completo da sua mãe:"
 

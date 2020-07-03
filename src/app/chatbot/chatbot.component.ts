@@ -56,7 +56,38 @@ export class ChatbotComponent extends Base implements OnInit {
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario()) {
       console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, ${this.chat[this.chat.length - 1].conteudo}. Vamos continuar ...`))
       this.informarPaternalGreaterGrandFather();
+    }
+
+    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandFather()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarMaternalGreaterGrandFather();
+    }
+
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandFather()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarPaternalGreaterGrandMother();
+    }
+
+    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandMother()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarMaternalGreaterGrandMother();
+    }
+
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandMother()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarPaternalGrandFather();
+    }
+
+    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandFather()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarMaternalGrandFather();
+    }
+
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandFather()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarPaternalGrandMother();
     }
 
     this.formulario = new FormGroup(
@@ -132,6 +163,28 @@ export class ChatbotComponent extends Base implements OnInit {
       this.rolarBarra()
     }, this.tempoDeRetornoDoRobo)
   }
+
+  private informarPaternalGrandMother(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_MOTHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_FATHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informarMaternalGrandMother(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_MOTHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_FATHER_NAME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+
+
+
+
+
 
   private informarNomeDoPai(): void {
     setTimeout(() => {
