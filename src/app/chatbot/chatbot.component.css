@@ -1,3 +1,8 @@
+.mensagens {
+    overflow-y: scroll;
+    height: 300px;
+}
+
 .mensagemEnviada {
     background: #54d38a;
     width: 70%;
@@ -26,9 +31,6 @@
 }
 
 .linkedin {
-    /* width: 4%;
-    height: 4%; */
-
     width: 50px;
     height: 50px;
 }

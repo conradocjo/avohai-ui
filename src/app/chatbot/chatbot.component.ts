@@ -26,23 +26,44 @@ export class ChatbotComponent extends Base implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, "Seja bem vindo(a), como posso lhe ajudar?"))
-    this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, "Digite a opção desejada: "))
+    this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, "Seja bem vindo(a). Digite a opção desejada, para continuarmos:"))
     this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `1 - Cadastrar parente.    2 - Editar parente.`));
   }
 
   public enviarMensagem(): void {
+    this.chat.push(new Mensagem(DivEnum.MENSAGEM_ENVIADA, this.formulario.value.mensagem))
     if (this.validaSePerguntaFeitaFoiRelacionadaOpcaoDesejada()) {
       if (this.validaSeOpcaoDigitadaEhUmOuDois()) {
-        if(this.formulario.value.mensagem == 1){
-
+        if (this.formulario.value.mensagem == 1) {
+          this.continuarCadastro();
         } else {
-          
+          this.continuarEdicao();
         }
       } else {
-        this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro))
+        setTimeout(() => {
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro))
+        }, 2000)
       }
     }
+  }
+
+  public continuarCadastro(): void {
+    setTimeout(() => {
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, Entendi.`))
+    }, 2000)
+
+  }
+
+  public continuarEdicao(): void {
+    setTimeout(() => {
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, Entendi.`))
+    }, 2000)
+  }
+
+  testerino(): void {
+    var el = document.querySelector('.mensagens');
+    var height = el.scrollHeight;
+    el.scrollTop = height;
   }
 
   // Validações

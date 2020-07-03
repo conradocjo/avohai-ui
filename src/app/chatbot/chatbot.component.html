@@ -1,19 +1,17 @@
 <div class="container">
+
     <div class="cabecalho">
         <h1 class="display-4">Avôhai!</h1>
     </div>
     <div class="jumbotron">
-
-        <div class="mensagens" style="overflow-y: scroll;
-        resize: none;  height: 200px;   ">
-
+        <div class="mensagens">
             <div *ngFor="let conversa of chat" [class]="conversa.divClass">
                 <p class="lead">{{conversa.conteudo}}</p>
             </div>
-
         </div>
 
         <hr class="my-4">
+
         <form [formGroup]="formulario" (ngSubmit)="enviarMensagem()">
             <div class="form-group">
                 <textarea formControlName="mensagem" class="form-control" id="exampleFormControlTextarea1" rows="3"
@@ -25,7 +23,9 @@
                     </fa-icon></button>
             </div>
         </form>
+
     </div>
+
     <footer>
         <div class="img">
             <a [href]="linkedinPerfil" target="_blank">
@@ -36,4 +36,5 @@
             </a>
         </div>
     </footer>
+
 </div>
