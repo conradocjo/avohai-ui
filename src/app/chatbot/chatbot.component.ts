@@ -4,6 +4,7 @@ import { DivEnum } from '../model/enumerators/divEnum';
 import { Mensagem } from '../model/mensagem';
 import { TreeServiceService } from '../services/tree-service.service';
 import { Base } from '../utils/base';
+import { InteracaoChatEnum } from '../model/enumerators/interacaoChatEnum';
 
 @Component({
   selector: 'avhi-chatbot',
@@ -12,9 +13,9 @@ import { Base } from '../utils/base';
 })
 export class ChatbotComponent extends Base implements OnInit {
 
-  public respostaRoboErro: string = "Não entendi, por favor certifique-se de que digitou a opção correta."
-  // public respostaRoboContinuacao: string = "Ok, por favor certifique-se de que digitou a opção correta."
+  private respostaRoboErro: string = InteracaoChatEnum.RESPOSTA_ERRO;
   public chat: Mensagem[] = [];
+  public mensagensEmitidasPeloRobo: Mensagem[] = [];
   public formulario: FormGroup = new FormGroup(
     {
       "mensagem": new FormControl("")
@@ -26,54 +27,60 @@ export class ChatbotComponent extends Base implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, "Seja bem vindo(a). Digite a opção desejada, para continuarmos:"))
-    this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `1 - Cadastrar parente.    2 - Editar parente.`));
+    this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.BEM_VINDO));
+    this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.OPCAO_INICIAL));
+    this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.BEM_VINDO));
+    this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.OPCAO_INICIAL));
   }
 
   public enviarMensagem(): void {
     this.chat.push(new Mensagem(DivEnum.MENSAGEM_ENVIADA, this.formulario.value.mensagem))
-    if (this.validaSePerguntaFeitaFoiRelacionadaOpcaoDesejada()) {
+    if (this.validaSePerguntaFeitaFoiRelacionadaOpcaoUmOuDois()) {
       if (this.validaSeOpcaoDigitadaEhUmOuDois()) {
         if (this.formulario.value.mensagem == 1) {
-          this.continuarCadastro();
+          this.informarNome();
         } else {
           this.continuarEdicao();
         }
       } else {
         setTimeout(() => {
           this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro))
-        }, 2000)
+          this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro))
+          this.rolarBarra()
+        }, 1000);
       }
     }
+
   }
 
-  public continuarCadastro(): void {
+  private informarNome(): void {
+    setTimeout(() => {
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
+      this.rolarBarra()
+    }, 1000)
+  }
+
+  private continuarEdicao(): void {
     setTimeout(() => {
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, Entendi.`))
-    }, 2000)
-
+      this.rolarBarra()
+    }, 1000)
   }
 
-  public continuarEdicao(): void {
-    setTimeout(() => {
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, Entendi.`))
-    }, 2000)
+  // Validações e tratativas
+
+  private validaSePerguntaFeitaFoiRelacionadaOpcaoUmOuDois(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.OPCAO_INICIAL ? true : false;
   }
 
-  testerino(): void {
+  private validaSeOpcaoDigitadaEhUmOuDois(): boolean {
+    return this.formulario.value.mensagem == 1 || this.formulario.value.mensagem == 2;
+  }
+
+  private rolarBarra(): void {
     var el = document.querySelector('.mensagens');
     var height = el.scrollHeight;
     el.scrollTop = height;
-  }
-
-  // Validações
-
-  public validaSePerguntaFeitaFoiRelacionadaOpcaoDesejada(): boolean {
-    return this.chat[this.chat.length - 1] ? true : false;
-  }
-
-  public validaSeOpcaoDigitadaEhUmOuDois(): boolean {
-    return this.formulario.value.mensagem == 1 || this.formulario.value.mensagem == 2;
   }
 
 }
