@@ -7,55 +7,24 @@
         <div class="mensagens" style="overflow-y: scroll;
         resize: none;  height: 200px;   ">
 
-            <div class="mensagemRecebida">
-                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
-                    attention
-                    to
-                    featured content or information.</p>
-            </div>
-
-            <div class="mensagemEnviada">
-                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
-                    attention
-                    to
-                    featured content or information.</p>
-            </div>
-            <div class="mensagemRecebida">
-                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
-                    attention
-                    to
-                    featured content or information.</p>
-            </div>
-            <div class="mensagemEnviada">
-                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
-                    attention
-                    to
-                    featured content or information.</p>
-            </div>
-            <div class="mensagemEnviada">
-                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
-                    attention
-                    to
-                    featured content or information.</p>
+            <div *ngFor="let conversa of chat" [class]="conversa.divClass">
+                <p class="lead">{{conversa.conteudo}}</p>
             </div>
 
         </div>
 
         <hr class="my-4">
+        <form [formGroup]="formulario" (ngSubmit)="enviarMensagem()">
+            <div class="form-group">
+                <textarea formControlName="mensagem" class="form-control" id="exampleFormControlTextarea1" rows="3"
+                    placeholder="Digite algo."></textarea>
+            </div>
 
-        <div class="form-group">
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                placeholder="Digite algo."></textarea>
-        </div>
-
-        <div class="d-flex justify-content-end">
-            <p class="lead">
-
-                <a class="btn btn-success btn-lg" (click)="teste()" role="button">Enviar <fa-icon [icon]="faPaperPlane">
-                    </fa-icon>
-                </a>
-            </p>
-        </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Enviar <fa-icon [icon]="faPaperPlane">
+                    </fa-icon></button>
+            </div>
+        </form>
     </div>
     <footer>
         <div class="img">

@@ -1,4 +1,4 @@
-export class Mensagens {
+export class Mensagem {
     constructor(
         public divClass: string,
         public conteudo: string
