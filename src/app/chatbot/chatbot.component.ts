@@ -17,6 +17,7 @@ export class ChatbotComponent extends Base implements OnInit {
   public chat: Mensagem[] = [];
   public mensagensEmitidasPeloRobo: Mensagem[] = [];
   private tempoDeRetornoDoRobo = 1000;
+  private nomeUsuario: string;
 
 
   public formulario: FormGroup = new FormGroup(
@@ -56,6 +57,7 @@ export class ChatbotComponent extends Base implements OnInit {
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario()) {
       console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.nomeUsuario = this.chat[this.chat.length - 1].conteudo;
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, ${this.chat[this.chat.length - 1].conteudo}. Vamos continuar ...`))
       this.informarPaternalGreaterGrandFather();
     }
@@ -88,6 +90,30 @@ export class ChatbotComponent extends Base implements OnInit {
     if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandFather()) {
       console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
       this.informarPaternalGrandMother();
+    }
+
+    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandMother()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarMaternalGrandMother();
+    }
+
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandMother()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarNomeDoPai();
+    }
+
+    if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDoPai()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.informarNomeDaMae();
+    }
+
+    if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDaMae()) {
+      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      //Salvar objeto completo aqui
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, ${this.nomeUsuario}. estou guardando todas suas informações...`))
+      setTimeout(() => {
+        window.location.reload();
+      }, 8000)
     }
 
     this.formulario = new FormGroup(
@@ -167,7 +193,7 @@ export class ChatbotComponent extends Base implements OnInit {
   private informarPaternalGrandMother(): void {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_MOTHER_NAME))
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_FATHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_MOTHER_NAME))
       this.rolarBarra()
     }, this.tempoDeRetornoDoRobo)
   }
@@ -175,16 +201,10 @@ export class ChatbotComponent extends Base implements OnInit {
   private informarMaternalGrandMother(): void {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_MOTHER_NAME))
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_FATHER_NAME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_MOTHER_NAME))
       this.rolarBarra()
     }, this.tempoDeRetornoDoRobo)
   }
-
-
-
-
-
-
 
   private informarNomeDoPai(): void {
     setTimeout(() => {
