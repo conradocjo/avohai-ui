@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DadosDoUsuario } from '../model/dadosDoUsuario';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,10 @@ import { HttpClient } from '@angular/common/http';
 export class TreeServiceService {
 
   constructor(private http: HttpClient) { }
+
+  public salvarDadosDoUsuario(dadosDoUsuario: DadosDoUsuario): void {
+    console.log(dadosDoUsuario);
+  }
 
   /*
     Serviço pra criar comunicação com backend. 

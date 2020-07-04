@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DadosDoUsuario } from '../model/dadosDoUsuario';
 import { DivEnum } from '../model/enumerators/divEnum';
 import { InteracaoChatEnum } from '../model/enumerators/interacaoChatEnum';
 import { Mensagem } from '../model/mensagem';
@@ -17,7 +18,9 @@ export class ChatbotComponent extends Base implements OnInit {
   public chat: Mensagem[] = [];
   public mensagensEmitidasPeloRobo: Mensagem[] = [];
   private tempoDeRetornoDoRobo = 1000;
+  private tempoPraReiniciarAplicacao = 8000;
   private nomeUsuario: string;
+  private dadosDoUsuario: DadosDoUsuario;
 
 
   public formulario: FormGroup = new FormGroup(
@@ -31,6 +34,7 @@ export class ChatbotComponent extends Base implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dadosDoUsuario = new DadosDoUsuario();
     this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.BEM_VINDO));
     this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.OPCAO_INICIAL));
     this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.BEM_VINDO));
@@ -51,69 +55,68 @@ export class ChatbotComponent extends Base implements OnInit {
         setTimeout(() => {
           this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro))
           this.rolarBarra()
-        }, 1000);
+        }, this.tempoDeRetornoDoRobo);
       }
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
-      this.nomeUsuario = this.chat[this.chat.length - 1].conteudo;
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, ${this.chat[this.chat.length - 1].conteudo}. Vamos continuar ...`))
+      this.dadosDoUsuario.nomeUsuario = this.chat[this.chat.length - 1].conteudo;
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, ${this.dadosDoUsuario.nomeUsuario}. Vamos continuar ...`))
       this.informarPaternalGreaterGrandFather();
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandFather()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.paternalGreaterGrandFatherName = this.chat[this.chat.length - 1].conteudo;
       this.informarMaternalGreaterGrandFather();
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandFather()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.maternalGreaterGrandFatherName = this.chat[this.chat.length - 1].conteudo;
       this.informarPaternalGreaterGrandMother();
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandMother()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.paternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
       this.informarMaternalGreaterGrandMother();
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandMother()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.maternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
       this.informarPaternalGrandFather();
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandFather()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.paternalGrandFatherName = this.chat[this.chat.length - 1].conteudo;
       this.informarMaternalGrandFather();
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandFather()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.maternalGrandFatherName = this.chat[this.chat.length - 1].conteudo;
       this.informarPaternalGrandMother();
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandMother()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.paternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
       this.informarMaternalGrandMother();
     }
 
     if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandMother()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.maternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
       this.informarNomeDoPai();
     }
 
     if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDoPai()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
+      this.dadosDoUsuario.nomePai = this.chat[this.chat.length - 1].conteudo;
       this.informarNomeDaMae();
     }
 
     if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDaMae()) {
-      console.log(this.chat[this.chat.length - 1].conteudo) //Adicionar o dado ao objeto
-      //Salvar objeto completo aqui
+      this.dadosDoUsuario.nomeMae = this.chat[this.chat.length - 1].conteudo;
+      this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, ${this.nomeUsuario}. estou guardando todas suas informações...`))
       setTimeout(() => {
         window.location.reload();
-      }, 8000)
+      }, this.tempoPraReiniciarAplicacao)
     }
 
     this.formulario = new FormGroup(
