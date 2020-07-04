@@ -172,7 +172,17 @@ export class ChatbotComponent extends Base implements OnInit {
 
   private continuarEdicao(): void {
     setTimeout(() => {
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, Entendi.`))
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
+      this.treeService.buscarUsuario(this.chat[this.chat.length - 1].conteudo)
+        .then((dados) => {
+          if (dados != null && dados.nomeUsuario != null) {
+            this.dadosDoUsuario = dados;
+          } else {
+            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_USUARIO_NAO_CADASTRADO))
+          }
+        })
+
       this.rolarBarra()
     }, this.tempoDeRetornoDoRobo)
   }
