@@ -17,9 +17,8 @@ export class ChatbotComponent extends Base implements OnInit {
   private respostaRoboErro: string = InteracaoChatEnum.RESPOSTA_ERRO;
   public chat: Mensagem[] = [];
   public mensagensEmitidasPeloRobo: Mensagem[] = [];
-  private tempoDeRetornoDoRobo = 1000;
+  private tempoDeRetornoDoRobo = 1500;
   private tempoPraReiniciarAplicacao = 8000;
-  private nomeUsuario: string;
   private dadosDoUsuario: DadosDoUsuario;
 
 
@@ -58,6 +57,8 @@ export class ChatbotComponent extends Base implements OnInit {
     this.limpaComponenteDeTexto();
   }
 
+  //Métodos Auxiliares ao método "enviarMensagem()"
+
   private limpaComponenteDeTexto() {
     this.formulario = new FormGroup(
       {
@@ -69,8 +70,8 @@ export class ChatbotComponent extends Base implements OnInit {
   private preencheNomeMaeESalvaObjeto() {
     if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDaMae()) {
       this.dadosDoUsuario.nomeMae = this.chat[this.chat.length - 1].conteudo;
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, ${this.dadosDoUsuario.nomeUsuario}. estou guardando todas suas informações...`));
       this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, ${this.nomeUsuario}. estou guardando todas suas informações...`));
       setTimeout(() => {
         window.location.reload();
       }, this.tempoPraReiniciarAplicacao);
