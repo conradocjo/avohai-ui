@@ -9,8 +9,15 @@ export class TreeServiceService {
 
   constructor(private http: HttpClient) { }
 
+  private url: string = "http://localhost:8080/tree"
+
   public salvarDadosDoUsuario(dadosDoUsuario: DadosDoUsuario): void {
-    console.log(dadosDoUsuario);
+    debugger
+    this.http.post(this.url, dadosDoUsuario)
+      .toPromise()
+      .then((resposta) => {
+        console.log(resposta);
+      })
   }
 
   public buscarUsuario(nomeUsuario: string): Promise<DadosDoUsuario> {

@@ -115,14 +115,14 @@ export class ChatbotComponent extends Base implements OnInit {
 
   private preencheMaternalGrandMotherEChamaPaternal() {
     if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandMother()) {
-      this.dadosDoUsuario.maternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+      this.dadosDoUsuario.maternalGreaterGrandMotherName = this.chat[this.chat.length - 1].conteudo;
       this.informarPaternalGrandFather();
     }
   }
 
   private preenchePaternalGrandMotherEChamaGreaterGrandMother() {
     if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandMother()) {
-      this.dadosDoUsuario.paternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+      this.dadosDoUsuario.paternalGreaterGrandMotherName = this.chat[this.chat.length - 1].conteudo;
       this.informarMaternalGreaterGrandMother();
     }
   }
