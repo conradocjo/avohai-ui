@@ -1,5 +1,6 @@
 export class DadosDoUsuario {
     public nomeUsuario: string;
+    public cpf: string;
     public paternalGreaterGrandFatherName: string;
     public maternalGreaterGrandFatherName: string;
     public paternalGreaterGrandMotherName: string;

@@ -20,6 +20,7 @@ export class TreeServiceService {
       })
   }
 
+
   public buscarUsuario(nomeUsuario: string): Promise<DadosDoUsuario> {
     return null;
   }

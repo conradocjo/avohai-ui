@@ -43,7 +43,8 @@ export class ChatbotComponent extends Base implements OnInit {
   public enviarMensagem(): void {
     this.chat.push(new Mensagem(DivEnum.MENSAGEM_ENVIADA, this.formulario.value.mensagem))
     this.tratativaEscolhaCadastroEdicao();
-    this.preencheNomeEChamaFuncaoPraPreencherPaternalGreaterGrandFather();
+    this.preencheNomeEChamaFuncaoPraPreencherCPF();
+    this.preencheCpfEChamaFuncaoPraPreencherPaternalGreaterGrandFather();
     this.preenchePaternalGreaterGrandFatherEChamaMaternal();
     this.preencheMaternalGreaterGrandFatherEChamaPaternalGreaterGrandMother();
     this.preenchePaternalGrandMotherEChamaGreaterGrandMother();
@@ -141,10 +142,17 @@ export class ChatbotComponent extends Base implements OnInit {
     }
   }
 
-  private preencheNomeEChamaFuncaoPraPreencherPaternalGreaterGrandFather() {
+  private preencheNomeEChamaFuncaoPraPreencherCPF() {
     if (this.validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario()) {
       this.dadosDoUsuario.nomeUsuario = this.chat[this.chat.length - 1].conteudo;
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, ${this.dadosDoUsuario.nomeUsuario}. Vamos continuar ...`));
+      this.informeCPF();
+    }
+  }
+
+  private preencheCpfEChamaFuncaoPraPreencherPaternalGreaterGrandFather() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreCPFDoUsuario()) {
+      this.dadosDoUsuario.cpf = this.chat[this.chat.length - 1].conteudo;
       this.informarPaternalGreaterGrandFather();
     }
   }
@@ -192,6 +200,14 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
+      this.rolarBarra()
+    }, this.tempoDeRetornoDoRobo)
+  }
+
+  private informeCPF(): void {
+    setTimeout(() => {
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_CPF))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_CPF))
       this.rolarBarra()
     }, this.tempoDeRetornoDoRobo)
   }
@@ -284,6 +300,10 @@ export class ChatbotComponent extends Base implements OnInit {
 
   private validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario(): boolean {
     return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.INFORME_SEU_NOME ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobreCPFDoUsuario(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.INFORME_SEU_CPF ? true : false;
   }
 
   private validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandFather(): boolean {
