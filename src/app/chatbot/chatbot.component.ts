@@ -43,88 +43,128 @@ export class ChatbotComponent extends Base implements OnInit {
 
   public enviarMensagem(): void {
     this.chat.push(new Mensagem(DivEnum.MENSAGEM_ENVIADA, this.formulario.value.mensagem))
+    this.tratativaEscolhaCadastroEdicao();
+    this.preencheNomeEChamaFuncaoPraPreencherPaternalGreaterGrandFather();
+    this.preenchePaternalGreaterGrandFatherEChamaMaternal();
+    this.preencheMaternalGreaterGrandFatherEChamaPaternalGreaterGrandMother();
+    this.preenchePaternalGrandMotherEChamaGreaterGrandMother();
+    this.preencheMaternalGrandMotherEChamaPaternal();
+    this.preenchePaternalGrandFatherEChamaGrandFather();
+    this.preencheMaternalGrandFatherEChamaPaternalGrandMother();
+    this.preenchePaternalGrandMotherChamaMaternalGrandMother();
+    this.preencheMaternalGrandMotherEChamaNomePai();
+    this.preencheNomeDoPaiEChamaNomeMae();
+    this.preencheNomeMaeESalvaObjeto();
+    this.limpaComponenteDeTexto();
+  }
 
-    if (this.validaSePerguntaFeitaFoiRelacionadaOpcaoUmOuDois()) {
-      if (this.validaSeOpcaoDigitadaEhUmOuDois()) {
-        if (this.formulario.value.mensagem == 1) {
-          this.informarNome();
-        } else {
-          this.continuarEdicao();
-        }
-      } else {
-        setTimeout(() => {
-          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro))
-          this.rolarBarra()
-        }, this.tempoDeRetornoDoRobo);
-      }
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario()) {
-      this.dadosDoUsuario.nomeUsuario = this.chat[this.chat.length - 1].conteudo;
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, ${this.dadosDoUsuario.nomeUsuario}. Vamos continuar ...`))
-      this.informarPaternalGreaterGrandFather();
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandFather()) {
-      this.dadosDoUsuario.paternalGreaterGrandFatherName = this.chat[this.chat.length - 1].conteudo;
-      this.informarMaternalGreaterGrandFather();
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandFather()) {
-      this.dadosDoUsuario.maternalGreaterGrandFatherName = this.chat[this.chat.length - 1].conteudo;
-      this.informarPaternalGreaterGrandMother();
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandMother()) {
-      this.dadosDoUsuario.paternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
-      this.informarMaternalGreaterGrandMother();
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandMother()) {
-      this.dadosDoUsuario.maternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
-      this.informarPaternalGrandFather();
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandFather()) {
-      this.dadosDoUsuario.paternalGrandFatherName = this.chat[this.chat.length - 1].conteudo;
-      this.informarMaternalGrandFather();
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandFather()) {
-      this.dadosDoUsuario.maternalGrandFatherName = this.chat[this.chat.length - 1].conteudo;
-      this.informarPaternalGrandMother();
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandMother()) {
-      this.dadosDoUsuario.paternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
-      this.informarMaternalGrandMother();
-    }
-
-    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandMother()) {
-      this.dadosDoUsuario.maternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
-      this.informarNomeDoPai();
-    }
-
-    if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDoPai()) {
-      this.dadosDoUsuario.nomePai = this.chat[this.chat.length - 1].conteudo;
-      this.informarNomeDaMae();
-    }
-
-    if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDaMae()) {
-      this.dadosDoUsuario.nomeMae = this.chat[this.chat.length - 1].conteudo;
-      this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, ${this.nomeUsuario}. estou guardando todas suas informações...`))
-      setTimeout(() => {
-        window.location.reload();
-      }, this.tempoPraReiniciarAplicacao)
-    }
-
+  private limpaComponenteDeTexto() {
     this.formulario = new FormGroup(
       {
         "mensagem": new FormControl(null, Validators.required)
       }
     );
+  }
 
+  private preencheNomeMaeESalvaObjeto() {
+    if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDaMae()) {
+      this.dadosDoUsuario.nomeMae = this.chat[this.chat.length - 1].conteudo;
+      this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, ${this.nomeUsuario}. estou guardando todas suas informações...`));
+      setTimeout(() => {
+        window.location.reload();
+      }, this.tempoPraReiniciarAplicacao);
+    }
+  }
+
+  private preencheNomeDoPaiEChamaNomeMae() {
+    if (this.validaSeUltimaPerguntaFoiFeitaSobreNomeDoPai()) {
+      this.dadosDoUsuario.nomePai = this.chat[this.chat.length - 1].conteudo;
+      this.informarNomeDaMae();
+    }
+  }
+
+  private preencheMaternalGrandMotherEChamaNomePai() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandMother()) {
+      this.dadosDoUsuario.maternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+      this.informarNomeDoPai();
+    }
+  }
+
+  private preenchePaternalGrandMotherChamaMaternalGrandMother() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandMother()) {
+      this.dadosDoUsuario.paternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+      this.informarMaternalGrandMother();
+    }
+  }
+
+  private preencheMaternalGrandFatherEChamaPaternalGrandMother() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGrandFather()) {
+      this.dadosDoUsuario.maternalGrandFatherName = this.chat[this.chat.length - 1].conteudo;
+      this.informarPaternalGrandMother();
+    }
+  }
+
+  private preenchePaternalGrandFatherEChamaGrandFather() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGrandFather()) {
+      this.dadosDoUsuario.paternalGrandFatherName = this.chat[this.chat.length - 1].conteudo;
+      this.informarMaternalGrandFather();
+    }
+  }
+
+  private preencheMaternalGrandMotherEChamaPaternal() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandMother()) {
+      this.dadosDoUsuario.maternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+      this.informarPaternalGrandFather();
+    }
+  }
+
+  private preenchePaternalGrandMotherEChamaGreaterGrandMother() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandMother()) {
+      this.dadosDoUsuario.paternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+      this.informarMaternalGreaterGrandMother();
+    }
+  }
+
+  private preencheMaternalGreaterGrandFatherEChamaPaternalGreaterGrandMother() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreMaternalGreaterGrandFather()) {
+      this.dadosDoUsuario.maternalGreaterGrandFatherName = this.chat[this.chat.length - 1].conteudo;
+      this.informarPaternalGreaterGrandMother();
+    }
+  }
+
+  private preenchePaternalGreaterGrandFatherEChamaMaternal() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandFather()) {
+      this.dadosDoUsuario.paternalGreaterGrandFatherName = this.chat[this.chat.length - 1].conteudo;
+      this.informarMaternalGreaterGrandFather();
+    }
+  }
+
+  private preencheNomeEChamaFuncaoPraPreencherPaternalGreaterGrandFather() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreNomeDoUsuario()) {
+      this.dadosDoUsuario.nomeUsuario = this.chat[this.chat.length - 1].conteudo;
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Ok, ${this.dadosDoUsuario.nomeUsuario}. Vamos continuar ...`));
+      this.informarPaternalGreaterGrandFather();
+    }
+  }
+
+  private tratativaEscolhaCadastroEdicao() {
+    if (this.validaSePerguntaFeitaFoiRelacionadaOpcaoUmOuDois()) {
+      if (this.validaSeOpcaoDigitadaEhUmOuDois()) {
+        if (this.formulario.value.mensagem == 1) {
+          this.informarNome();
+        }
+        else {
+          this.continuarEdicao();
+        }
+      }
+      else {
+        setTimeout(() => {
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro));
+          this.rolarBarra();
+        }, this.tempoDeRetornoDoRobo);
+      }
+    }
   }
 
   //Métodos da parte de edição
