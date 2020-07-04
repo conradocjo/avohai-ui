@@ -6,6 +6,7 @@ import { InteracaoChatEnum } from '../model/enumerators/interacaoChatEnum';
 import { Mensagem } from '../model/mensagem';
 import { TreeServiceService } from '../services/tree-service.service';
 import { Base } from '../utils/base';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'avhi-chatbot',
@@ -28,7 +29,10 @@ export class ChatbotComponent extends Base implements OnInit {
     }
   )
 
-  constructor(private treeService: TreeServiceService) {
+  constructor(
+    private treeService: TreeServiceService,
+    private userService: UsersService
+  ) {
     super();
   }
 
@@ -56,6 +60,7 @@ export class ChatbotComponent extends Base implements OnInit {
     this.preencheNomeDoPaiEChamaNomeMae();
     this.preencheNomeMaeESalvaObjeto();
     this.limpaComponenteDeTexto();
+    this.verificaSeUsuarioExisteNoBancoParaDarContinuidadeAEdicaoOuCadastro();
   }
 
   //Métodos Auxiliares ao método "enviarMensagem()"
@@ -180,19 +185,25 @@ export class ChatbotComponent extends Base implements OnInit {
 
   private continuarEdicao(): void {
     setTimeout(() => {
-      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
-      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
-      this.treeService.buscarUsuario(this.chat[this.chat.length - 1].conteudo)
-        .then((dados) => {
-          if (dados != null && dados.nomeUsuario != null) {
-            this.dadosDoUsuario = dados;
-          } else {
-            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_USUARIO_NAO_CADASTRADO))
-          }
-        })
-
+      this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_CPF_EDICAO))
+      this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_CPF_EDICAO))
       this.rolarBarra()
     }, this.tempoDeRetornoDoRobo)
+  }
+
+  private verificaSeUsuarioExisteNoBancoParaDarContinuidadeAEdicaoOuCadastro() {
+    if (this.validaSeUltimaPerguntaFeitaFoiSobreCpfEdicao()) {
+      this.userService.verificaSeUsuarioExiste(this.chat[this.chat.length - 1].conteudo)
+        .then((existe) => {
+          if (existe) {
+            console.log("Existe");
+          }
+          else {
+            console.log("Não existe");
+            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_USUARIO_NAO_CADASTRADO));
+          }
+        });
+    }
   }
 
   //Métodos da parte de cadasstro
@@ -304,6 +315,10 @@ export class ChatbotComponent extends Base implements OnInit {
 
   private validaSeUltimaPerguntaFeitaFoiSobreCPFDoUsuario(): boolean {
     return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.INFORME_SEU_CPF ? true : false;
+  }
+
+  private validaSeUltimaPerguntaFeitaFoiSobreCpfEdicao(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.INFORME_SEU_CPF_EDICAO ? true : false;
   }
 
   private validaSeUltimaPerguntaFeitaFoiSobrePaternalGreaterGrandFather(): boolean {

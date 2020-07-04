@@ -6,6 +6,7 @@ export enum InteracaoChatEnum {
 
     INFORME_SEU_NOME = "Ok, Informe seu nome completo:",
     INFORME_SEU_CPF = "Beleza, agora preciso que me informe apenas os números do seu cpf:",
+    INFORME_SEU_CPF_EDICAO = "Ok, preciso que me informe apenas os números do seu cpf:",
     PATERNAL_GREATER_GRAND_FATHER_NAME = "Informe o nome completo do seu bisavô (Paterno):",
     MATERNAL_GREATER_GRAND_FATHER_NAME = "Informe o nome completo do seu bisavô (Materno):",
     PATERNAL_GREATER_GRAND_MOTHER_NAME = "Informe o nome completo da sua bisavó (Paterna):",
