@@ -1,27 +1,18 @@
 # AvohaiUi
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.
+## Descrição
 
-## Development server
+Esta UI faz parte de um projeto de chatbot, onde seu objetivo é interagir junto ao usuário de maneira conduzir a um
+cadastro de parentes, e prover uma Árvore genealógica.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Durante o desenvolvimento do projeto foquei em, deixa-lo o mais simples possível por conta do tempo estimado de entrega, apesar disto
+procurei fazer o meu melhor, tratando com bastante zelo.
 
-## Code scaffolding
+O projeto foi gerado apartir do [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.
+Durante o desenvolvimento da aplicação foram usadas as tecnologias:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Angular 9, bootstrap, jQuery, fonts awesome, popper, JsonServer (Teste), netlify para o deploy.
 
-## Build
+## Server
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+O Server para acesso, está no link [colocar link], todavia, caso aconteça algo inesperado, é possível realizar o checkout do projeto, para rodar localmente.
