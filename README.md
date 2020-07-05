@@ -13,6 +13,3 @@ Durante o desenvolvimento da aplicação foram usadas as tecnologias:
 
 Angular 9, bootstrap, jQuery, fonts awesome, popper, JsonServer (Teste), netlify para o deploy.
 
-## Server
-
-O Server para acesso, está no link [colocar link], todavia, caso aconteça algo inesperado, é possível realizar o checkout do projeto, para rodar localmente.
