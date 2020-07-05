@@ -122,8 +122,17 @@
               "devServerTarget": "avohai-ui:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@netlify-builder/deploy:deploy",
+          "options": {
+            "outputPath": "dist/avohai-ui",
+            "netlifyToken": "2604de89aa0a4d95da7052e43e2b8be42a9661b85eaf28999148ea0707efe140",
+            "siteId": "0fdfb96f-86ee-4267-ad00-171612e48ef5"
+          }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "avohai-ui"
 }
