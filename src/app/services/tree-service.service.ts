@@ -9,7 +9,8 @@ export class TreeServiceService {
 
   constructor(private http: HttpClient) { }
 
-  private url: string = "http://localhost:8080"
+  // private url: string = "http://localhost:8080"
+  private url: string = "https://avohai-service.herokuapp.com"
 
   public salvarDadosDoUsuario(dadosDoUsuario: DadosDoUsuario): void {
     this.http.post(`${this.url}/tree`, dadosDoUsuario)
