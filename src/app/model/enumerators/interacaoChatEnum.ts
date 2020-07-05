@@ -9,6 +9,7 @@ export enum InteracaoChatEnum {
     CONTINUAR_CADASTRO = "Perfeito, vamos continuar com cadastro.",
     RESPOSTA_ATE_LOGO = "Ok, estarei disponível se precisar fazer um cadastro futuramente. até logo.",
     RESPOSTA_OPCAO_EDICAO_INVALIDA = "Desculpe, a opção digitada não corresponde as opções informadas anteriormente, por favor digite uma opção válida para continuarmos.",
+    RESPOSTA_DIGITE_NOVO_VALOR = "Digite um novo valor que irá substituir o atual:",
 
     INFORME_SEU_NOME = "Ok, Informe seu nome completo:",
     INFORME_SEU_CPF = "Beleza, agora preciso que me informe apenas os números do seu cpf:",

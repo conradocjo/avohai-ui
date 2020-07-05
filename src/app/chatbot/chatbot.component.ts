@@ -21,7 +21,7 @@ export class ChatbotComponent extends Base implements OnInit {
   private tempoDeRetornoDoRobo = 1500;
   private tempoPraReiniciarAplicacao = 8000;
   private dadosDoUsuario: DadosDoUsuario;
-
+  private opcaoDigitadaParaEdicao: string;
 
   public formulario: FormGroup = new FormGroup(
     {
@@ -62,31 +62,8 @@ export class ChatbotComponent extends Base implements OnInit {
     this.limpaComponenteDeTexto();
     this.verificaSeUsuarioExisteNoBancoParaDarContinuidadeAEdicaoOuCadastro();
     this.enviaRespostasRelacionadasAContinuacaoCadastrouOuEdicao();
-
-  }
-
-  private enviaRespostasRelacionadasAContinuacaoCadastrouOuEdicao() {
-    if (this.validaSeUltimaOpcaoFoiSugestaoDeCadastroPorNaoEncontrarCPF()) {
-      setTimeout(() => {
-        switch (this.chat[this.chat.length - 1].conteudo) {
-          case '1':
-            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.CONTINUAR_CADASTRO));
-            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.CONTINUAR_CADASTRO));
-            this.informarNome();
-            break;
-
-          case '2':
-            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_ATE_LOGO));
-            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_ATE_LOGO));
-            break;
-
-          default:
-            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
-            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
-            break;
-        }
-      }, this.tempoDeRetornoDoRobo)
-    }
+    this.guardaOpcaoEscolhidaEDirecionaParaEdicao();
+    this.gravarDadosDaEdicao();
   }
 
   //Métodos Auxiliares ao método "enviarMensagem()"
@@ -223,6 +200,10 @@ export class ChatbotComponent extends Base implements OnInit {
         .then((existe) => {
           if (existe) {
             setTimeout(() => {
+              this.treeService.buscarUsuario(this.chat[this.chat.length - 1].conteudo)
+                .then((reposta) => {
+                  this.dadosDoUsuario = reposta;
+                })
               this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO));
               this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.OPCOES_EDICAO));
               this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO))
@@ -236,7 +217,125 @@ export class ChatbotComponent extends Base implements OnInit {
               this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_CONTINUAR_CADASTRO));
             }, this.tempoDeRetornoDoRobo);
           }
-        });
+        })
+    }
+  }
+
+
+  private guardaOpcaoEscolhidaEDirecionaParaEdicao() {
+    if (this.validaSeUltimaOpcaoFoiSugestaoDeEdicaoPorOpcoes()) {
+      setTimeout(() => {
+        this.opcaoDigitadaParaEdicao = this.chat[this.chat.length - 1].conteudo;
+        this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_DIGITE_NOVO_VALOR));
+        this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_DIGITE_NOVO_VALOR));
+      }, this.tempoDeRetornoDoRobo);
+    }
+  }
+
+  private gravarDadosDaEdicao(): void {
+    if (this.validaSeUltimaOpcaoDigitadaFoiParaDigitarNovoValor()) {
+      switch (this.opcaoDigitadaParaEdicao) {
+        case '1':
+          this.dadosDoUsuario.nomePai = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome do seu pai para ${this.dadosDoUsuario.nomePai} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+
+        case '2':
+          this.dadosDoUsuario.nomeMae = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome da sua mãe para ${this.dadosDoUsuario.nomeMae} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+        case '3':
+          this.dadosDoUsuario.paternalGrandFatherName = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome do seu avô paterno para ${this.dadosDoUsuario.paternalGrandFatherName} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+        case '4':
+          this.dadosDoUsuario.paternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome do sua avó paterna para ${this.dadosDoUsuario.paternalGrandMotherName} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+        case '5':
+          this.dadosDoUsuario.maternalGrandFatherName = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome do seu avô materno para ${this.dadosDoUsuario.maternalGrandFatherName} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+        case '6':
+          this.dadosDoUsuario.maternalGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome da sua avó materna para ${this.dadosDoUsuario.maternalGrandMotherName} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+        case '7':
+          this.dadosDoUsuario.paternalGreaterGrandFatherName = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome do seu bisavô paterno para ${this.dadosDoUsuario.paternalGreaterGrandFatherName} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+        case '8':
+          this.dadosDoUsuario.paternalGreaterGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome da sua bisavó paterna para ${this.dadosDoUsuario.paternalGreaterGrandMotherName} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+        case '9':
+          this.dadosDoUsuario.maternalGreaterGrandFatherName = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome do seu bisavô materno para ${this.dadosDoUsuario.maternalGreaterGrandFatherName} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+        case '10':
+          this.dadosDoUsuario.maternalGreaterGrandMotherName = this.chat[this.chat.length - 1].conteudo;
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
+          ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome da sua bisavó materna para ${this.dadosDoUsuario.maternalGreaterGrandMotherName} .`));
+
+          this.treeService.salvarDadosDoUsuario(this.dadosDoUsuario);
+          break;
+
+        default:
+          this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
+          this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
+          break;
+      }
+    }
+  }
+
+  private enviaRespostasRelacionadasAContinuacaoCadastrouOuEdicao() {
+    if (this.validaSeUltimaOpcaoFoiSugestaoDeCadastroPorNaoEncontrarCPF()) {
+      setTimeout(() => {
+        switch (this.chat[this.chat.length - 1].conteudo) {
+          case '1':
+            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.CONTINUAR_CADASTRO));
+            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.CONTINUAR_CADASTRO));
+            this.informarNome();
+            break;
+
+          case '2':
+            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_ATE_LOGO));
+            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_ATE_LOGO));
+            break;
+
+          default:
+            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
+            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
+            break;
+        }
+      }, this.tempoDeRetornoDoRobo)
     }
   }
 
@@ -341,6 +440,10 @@ export class ChatbotComponent extends Base implements OnInit {
 
   private validaSeUltimaOpcaoFoiSugestaoDeCadastroPorNaoEncontrarCPF(): boolean {
     return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.RESPOSTA_CONTINUAR_CADASTRO ? true : false;
+  }
+
+  private validaSeUltimaOpcaoDigitadaFoiParaDigitarNovoValor(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.RESPOSTA_DIGITE_NOVO_VALOR ? true : false;
   }
 
   private validaSeUltimaOpcaoFoiSugestaoDeEdicaoPorOpcoes(): boolean {
