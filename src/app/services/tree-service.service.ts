@@ -19,7 +19,6 @@ export class TreeServiceService {
       })
   }
 
-
   public buscarUsuario(cpf: string): Promise<DadosDoUsuario> {
     let dadosUsuario: any = this.http.get<DadosDoUsuario>(`${this.url}/user/buscaUsuarioPeloCpf/${cpf}`)
       .toPromise()

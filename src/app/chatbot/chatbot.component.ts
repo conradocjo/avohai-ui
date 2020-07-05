@@ -236,6 +236,7 @@ export class ChatbotComponent extends Base implements OnInit {
     if (this.validaSeUltimaOpcaoDigitadaFoiParaDigitarNovoValor()) {
       switch (this.opcaoDigitadaParaEdicao) {
         case '1':
+          debugger
           this.dadosDoUsuario.nomePai = this.chat[this.chat.length - 1].conteudo;
           this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, `Muito obrigado por sua colaboração, 
           ${this.dadosDoUsuario.nomeUsuario}. estou atualizando nome do seu pai para ${this.dadosDoUsuario.nomePai} .`));

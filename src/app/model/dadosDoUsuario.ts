@@ -11,4 +11,8 @@ export class DadosDoUsuario {
     public maternalGrandMotherName: string;
     public nomePai: string;
     public nomeMae: string;
+    public idParent: number;
+    public idPaternalGrandParent: number;
+    public idMaternalGrandParent: number;
+    public idUser: number;
 }
