@@ -72,6 +72,7 @@ export class ChatbotComponent extends Base implements OnInit {
           case '1':
             this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.CONTINUAR_CADASTRO));
             this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.CONTINUAR_CADASTRO));
+            this.informarNome();
             break;
 
           case '2':
@@ -227,17 +228,13 @@ export class ChatbotComponent extends Base implements OnInit {
               this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO))
               this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.OPCOES_EDICAO));
             }, this.tempoDeRetornoDoRobo);
-          }
-          else {
+          } else {
             setTimeout(() => {
               this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_USUARIO_NAO_CADASTRADO));
               this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_CONTINUAR_CADASTRO));
               this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_USUARIO_NAO_CADASTRADO));
               this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_CONTINUAR_CADASTRO));
             }, this.tempoDeRetornoDoRobo);
-            setTimeout(() => {
-              window.location.reload();
-            }, this.tempoPraReiniciarAplicacao);
           }
         });
     }
