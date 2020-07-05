@@ -46,7 +46,7 @@ export class ChatbotComponent extends Base implements OnInit {
 
   public enviarMensagem(): void {
     this.chat.push(new Mensagem(DivEnum.MENSAGEM_ENVIADA, this.formulario.value.mensagem))
-    this.tratativaEscolhaCadastroEdicao();
+    this.realizaTratativaAtravesDaEscolhaCadastroEdicao();
     this.preencheNomeEChamaFuncaoPraPreencherCPF();
     this.preencheCpfEChamaFuncaoPraPreencherPaternalGreaterGrandFather();
     this.preenchePaternalGreaterGrandFatherEChamaMaternal();
@@ -61,6 +61,31 @@ export class ChatbotComponent extends Base implements OnInit {
     this.preencheNomeMaeESalvaObjeto();
     this.limpaComponenteDeTexto();
     this.verificaSeUsuarioExisteNoBancoParaDarContinuidadeAEdicaoOuCadastro();
+    this.enviaRespostasRelacionadasAContinuacaoCadastrouOuEdicao();
+
+  }
+
+  private enviaRespostasRelacionadasAContinuacaoCadastrouOuEdicao() {
+    if (this.validaSeUltimaOpcaoFoiSugestaoDeCadastroPorNaoEncontrarCPF()) {
+      setTimeout(() => {
+        switch (this.chat[this.chat.length - 1].conteudo) {
+          case '1':
+            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.CONTINUAR_CADASTRO));
+            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.CONTINUAR_CADASTRO));
+            break;
+
+          case '2':
+            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_ATE_LOGO));
+            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_ATE_LOGO));
+            break;
+
+          default:
+            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
+            this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
+            break;
+        }
+      }, this.tempoDeRetornoDoRobo)
+    }
   }
 
   //Métodos Auxiliares ao método "enviarMensagem()"
@@ -162,7 +187,7 @@ export class ChatbotComponent extends Base implements OnInit {
     }
   }
 
-  private tratativaEscolhaCadastroEdicao() {
+  private realizaTratativaAtravesDaEscolhaCadastroEdicao() {
     if (this.validaSePerguntaFeitaFoiRelacionadaOpcaoUmOuDois()) {
       if (this.validaSeOpcaoDigitadaEhUmOuDois()) {
         if (this.formulario.value.mensagem == 1) {
@@ -196,11 +221,23 @@ export class ChatbotComponent extends Base implements OnInit {
       this.userService.verificaSeUsuarioExiste(this.chat[this.chat.length - 1].conteudo)
         .then((existe) => {
           if (existe) {
-            console.log("Existe");
+            setTimeout(() => {
+              this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO));
+              this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.OPCOES_EDICAO));
+              this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO))
+              this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.OPCOES_EDICAO));
+            }, this.tempoDeRetornoDoRobo);
           }
           else {
-            console.log("Não existe");
-            this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_USUARIO_NAO_CADASTRADO));
+            setTimeout(() => {
+              this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_USUARIO_NAO_CADASTRADO));
+              this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_CONTINUAR_CADASTRO));
+              this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_USUARIO_NAO_CADASTRADO));
+              this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_CONTINUAR_CADASTRO));
+            }, this.tempoDeRetornoDoRobo);
+            setTimeout(() => {
+              window.location.reload();
+            }, this.tempoPraReiniciarAplicacao);
           }
         });
     }
@@ -304,6 +341,14 @@ export class ChatbotComponent extends Base implements OnInit {
   }
 
   // Validações e tratativas
+
+  private validaSeUltimaOpcaoFoiSugestaoDeCadastroPorNaoEncontrarCPF(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.RESPOSTA_CONTINUAR_CADASTRO ? true : false;
+  }
+
+  private validaSeUltimaOpcaoFoiSugestaoDeEdicaoPorOpcoes(): boolean {
+    return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.OPCOES_EDICAO ? true : false;
+  }
 
   private validaSePerguntaFeitaFoiRelacionadaOpcaoUmOuDois(): boolean {
     return this.mensagensEmitidasPeloRobo[this.mensagensEmitidasPeloRobo.length - 1].conteudo == InteracaoChatEnum.OPCAO_INICIAL ? true : false;

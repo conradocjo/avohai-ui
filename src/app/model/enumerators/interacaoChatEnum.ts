@@ -3,6 +3,12 @@ export enum InteracaoChatEnum {
     OPCAO_INICIAL = "1 - Cadastrar parente.    2 - Editar parente.",
     RESPOSTA_ERRO = "Não entendi, por favor certifique-se de que digitou a opção correta.",
     RESPOSTA_USUARIO_NAO_CADASTRADO = "Não te encontrei na minha base de dados, podemos continuar com cadastro?",
+    RESPOSTA_CONTINUAR_CADASTRO = "1 - SIM, 2 - NÃO",
+    RESPOSTA_OPCAO_EDICAO = "Digite o número da opção que você deseja alterar (Digite apenas uma opção):",
+    OPCOES_EDICAO = "1-Pai , 2-Mãe, 3-Avô Paterno, 4-Avó Paterna, 5-Avô Materno, 6- Avó Materna, 7-Bisavô Paterno, 8-Bisavó Paterna, 9-Bisavô Materno, 10-Bizavó Materna",
+    CONTINUAR_CADASTRO = "Perfeito, vamos continuar com cadastro.",
+    RESPOSTA_ATE_LOGO = "Ok, estarei disponível se precisar fazer um cadastro futuramente. até logo.",
+    RESPOSTA_OPCAO_EDICAO_INVALIDA = "Desculpe, a opção digitada não corresponde as opções informadas anteriormente, por favor digite uma opção válida para continuarmos.",
 
     INFORME_SEU_NOME = "Ok, Informe seu nome completo:",
     INFORME_SEU_CPF = "Beleza, agora preciso que me informe apenas os números do seu cpf:",
