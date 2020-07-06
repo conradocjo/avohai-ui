@@ -71,7 +71,7 @@ export class ChatbotComponent extends Base implements OnInit {
       var el = document.querySelector('.mensagens');
       var height = el.scrollHeight;
       el.scrollTop = height;
-    }, 100)
+    }, 1500)
   }
 
   //Métodos Auxiliares ao método "enviarMensagem()"
