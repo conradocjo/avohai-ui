@@ -5,8 +5,8 @@ import { DivEnum } from '../model/enumerators/divEnum';
 import { InteracaoChatEnum } from '../model/enumerators/interacaoChatEnum';
 import { Mensagem } from '../model/mensagem';
 import { TreeServiceService } from '../services/tree-service.service';
-import { Base } from '../utils/base';
 import { UsersService } from '../services/users.service';
+import { Base } from '../utils/base';
 
 @Component({
   selector: 'avhi-chatbot',
@@ -64,6 +64,14 @@ export class ChatbotComponent extends Base implements OnInit {
     this.enviaRespostasRelacionadasAContinuacaoCadastrouOuEdicao();
     this.guardaOpcaoEscolhidaEDirecionaParaEdicao();
     this.gravarDadosDaEdicao();
+    ;
+
+
+    setInterval(() => {
+      var el = document.querySelector('.mensagens');
+      var height = el.scrollHeight;
+      el.scrollTop = height;
+    }, 100)
   }
 
   //Métodos Auxiliares ao método "enviarMensagem()"
@@ -178,7 +186,7 @@ export class ChatbotComponent extends Base implements OnInit {
       else {
         setTimeout(() => {
           this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, this.respostaRoboErro));
-          this.rolarBarra();
+          ;
         }, this.tempoDeRetornoDoRobo);
       }
     }
@@ -190,7 +198,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_CPF_EDICAO))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_CPF_EDICAO))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -217,8 +225,11 @@ export class ChatbotComponent extends Base implements OnInit {
               this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_CONTINUAR_CADASTRO));
             }, this.tempoDeRetornoDoRobo);
           }
+        }).then(() => {
+          ;
         })
     }
+
   }
 
 
@@ -312,6 +323,7 @@ export class ChatbotComponent extends Base implements OnInit {
           this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
           break;
       }
+      ;
     }
   }
 
@@ -335,6 +347,7 @@ export class ChatbotComponent extends Base implements OnInit {
             this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.RESPOSTA_OPCAO_EDICAO_INVALIDA));
             break;
         }
+        ;
       }, this.tempoDeRetornoDoRobo)
     }
   }
@@ -344,7 +357,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_NOME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -352,7 +365,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_CPF))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.INFORME_SEU_CPF))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -360,7 +373,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GREATER_GRAND_FATHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GREATER_GRAND_FATHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -368,7 +381,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GREATER_GRAND_FATHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GREATER_GRAND_FATHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -376,7 +389,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GREATER_GRAND_MOTHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GREATER_GRAND_MOTHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -384,7 +397,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GREATER_GRAND_MOTHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GREATER_GRAND_MOTHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -392,7 +405,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_FATHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_FATHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -400,7 +413,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_FATHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_FATHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -408,7 +421,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_MOTHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.PATERNAL_GRAND_MOTHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -416,7 +429,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_MOTHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MATERNAL_GRAND_MOTHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -424,7 +437,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.FATHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.FATHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -432,7 +445,7 @@ export class ChatbotComponent extends Base implements OnInit {
     setTimeout(() => {
       this.mensagensEmitidasPeloRobo.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MOTHER_NAME))
       this.chat.push(new Mensagem(DivEnum.MENSAGEM_RECEBIDA, InteracaoChatEnum.MOTHER_NAME))
-      this.rolarBarra()
+
     }, this.tempoDeRetornoDoRobo)
   }
 
@@ -510,10 +523,10 @@ export class ChatbotComponent extends Base implements OnInit {
     return this.formulario.value.mensagem == 1 || this.formulario.value.mensagem == 2;
   }
 
-  private rolarBarra(): void {
-    var el = document.querySelector('.mensagens');
-    var height = el.scrollHeight;
-    el.scrollTop = height;
-  }
+  mutationObserver = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      console.log(mutation);
+    });
+  });
 
 }
