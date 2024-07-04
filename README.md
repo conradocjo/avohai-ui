@@ -13,3 +13,6 @@ Durante o desenvolvimento da aplicação foram usadas as tecnologias:
 
 Angular 9, bootstrap, jQuery, fonts awesome, popper, JsonServer (Teste), netlify para o deploy.
 
+Backend:
+
+https://github.com/conradocjo/avohai-service
